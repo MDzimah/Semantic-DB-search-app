@@ -1,15 +1,19 @@
 # Semantic DB Search
 
-Local semantic search app for Excel datasets, designed for fund/instrument matching where entity identity matters (for example: iShares vs Vanguard).
+Initial vibe-coded skeleton for a local semantic database search app. This repository is pending formal review and is not the final version.
+
+The scope is generic semantic DB search over tabular datasets. Fund/instrument matching is the initial use case, not the only intended use case.
 
 The project uses a hybrid ranking strategy:
 - Semantic similarity from embeddings
 - Structured deciding-column scoring (broker, issuer, ticker, ISIN, etc.)
 - Lexical fallback score
 
-This avoids pure keyword overlap errors and aligns with the project scope.
+This reduces pure keyword overlap errors and keeps ranking grounded in semantic + structured signals.
 
-## Current Status
+## Status
+
+This is an early implementation snapshot intended for iteration and review.
 
 Implemented:
 - Excel import and row normalization
@@ -28,7 +32,7 @@ Implemented:
   - Multi-line query input
 - Launcher entrypoint for future executable packaging
 
-Not finished yet:
+Planned / pending review:
 - Production-grade .exe packaging workflow (spec file and release pipeline)
 - Full persisted index reload/reuse flow for very large datasets
 - Advanced alias/family detection layer
@@ -58,38 +62,6 @@ Not finished yet:
 - src/data/: data files (if stored locally)
 - src/cache/: cache files
 
-## Setup
-
-1) Create and activate a virtual environment.
-
-Windows PowerShell:
-
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-
-2) Install dependencies.
-
-pip install -r src/requirements.txt
-
-## Run
-
-Option A (direct Streamlit):
-
-python -m streamlit run src/app.py
-
-Option B (launcher):
-
-python src/launcher.py
-
-## How to Use
-
-1) Start the app.
-2) Import an Excel workbook (.xlsx/.xlsm).
-3) Select deciding columns (identity columns that should strongly influence ranking).
-4) Paste one query per line.
-5) Run search and review results in collapsible blocks.
-6) Adjust results-per-query and sort mode as needed.
-
 ## Ranking Logic (Current)
 
 Final score is a weighted combination of:
@@ -118,6 +90,12 @@ State is stored in src/saved_state.
 - First model load can be slow because SentenceTransformers may download model assets.
 - You may see non-fatal transformer watcher warnings in Streamlit logs (for optional vision modules such as torchvision). They do not block core text search behavior.
 - For large datasets (for example ~45K rows), expect an initial indexing step before fast query-time retrieval.
+
+## Scope Clarification
+
+- Primary direction: generic semantic DB search across structured datasets.
+- Initial motivating scenario: fund/instrument lookup and matching.
+- Current repository state: non-final scaffold pending review and refinement.
 
 ## Next Recommended Steps
 
