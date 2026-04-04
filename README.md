@@ -1,19 +1,19 @@
 # Semantic DB Search
 
-Initial vibe-coded skeleton for a local semantic database search app. This repository is pending formal review and is not the final version.
+Initial vibe-coded skeleton for a local semantic database search application. This repository is pending formal review and is not a final release.
 
-The scope is generic semantic DB search over tabular datasets. Fund/instrument matching is the initial use case, not the only intended use case.
+This project focuses on semantic search over tabular datasets.
 
-The project uses a hybrid ranking strategy:
+Current retrieval uses a hybrid ranking strategy:
 - Semantic similarity from embeddings
-- Structured deciding-column scoring (broker, issuer, ticker, ISIN, etc.)
+- Structured deciding-column scoring (key identifiers and categorical fields)
 - Lexical fallback score
 
-This reduces pure keyword overlap errors and keeps ranking grounded in semantic + structured signals.
+This helps reduce pure keyword-overlap errors while keeping ranking grounded in semantic and structured signals.
 
 ## Status
 
-This is an early implementation snapshot intended for iteration and review.
+This is an early implementation snapshot intended for iteration.
 
 Implemented:
 - Excel import and row normalization
@@ -32,10 +32,10 @@ Implemented:
   - Multi-line query input
 - Launcher entrypoint for future executable packaging
 
-Planned / pending review:
+Planned:
 - Production-grade .exe packaging workflow (spec file and release pipeline)
 - Full persisted index reload/reuse flow for very large datasets
-- Advanced alias/family detection layer
+- Advanced alias and canonical-name detection
 - Export-to-Excel results
 
 ## Tech Stack
@@ -66,7 +66,7 @@ Planned / pending review:
 
 Final score is a weighted combination of:
 - Semantic score (embedding similarity)
-- Decision score (fuzzy/exact agreement against selected deciding columns)
+- Decision score (fuzzy or exact agreement against selected deciding columns)
 - Lexical score (display-text fuzzy overlap)
 
 Current default weights in code:
@@ -74,7 +74,7 @@ Current default weights in code:
 - Decision: 0.30
 - Lexical: 0.10
 
-Column-based weighting is applied so critical fields (ticker/ISIN/broker-like columns) contribute more in decision scoring.
+Column-based weighting is applied so critical identifier fields contribute more to decision scoring.
 
 ## Persistence
 
@@ -93,13 +93,12 @@ State is stored in src/saved_state.
 
 ## Scope Clarification
 
-- Primary direction: generic semantic DB search across structured datasets.
-- Initial motivating scenario: fund/instrument lookup and matching.
-- Current repository state: non-final scaffold pending review and refinement.
+- Generic semantic DB search across structured datasets.
+- Current repository state: non-final scaffold pending refinement.
 
 ## Next Recommended Steps
 
 1) Add robust index persistence/reload tied to dataset fingerprint.
-2) Improve deciding-value decontamination and alias handling for shortened broker names.
+2) Improve deciding-value decontamination and alias handling for abbreviated entity names.
 3) Add packaged Windows release flow with PyInstaller spec and release instructions.
 4) Add evaluation script with known query-result pairs to tune reranking weights.
