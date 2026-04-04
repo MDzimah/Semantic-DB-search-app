@@ -96,7 +96,7 @@ State is stored in src/saved_state.
 - Generic semantic DB search across structured datasets.
 - Current repository state: non-final scaffold pending refinement.
 
-## Next Recommended Steps
+## Next Steps
 
 1) Add robust index persistence/reload tied to dataset fingerprint.
 2) Improve deciding-value decontamination and alias handling for abbreviated entity names.
